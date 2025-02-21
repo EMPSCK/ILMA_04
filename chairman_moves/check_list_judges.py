@@ -85,12 +85,12 @@ async def check_list(text, user_id):
                     lin.sort()
                     new_text += f'{area[0]}\nЛинейные судьи: {", ".join(lin)}\n\n'
 
-                if have_zgs == 0:
-                    if len(gs.split(',')) >= 2:
-                        s += f'❌Ошибка: {area[0]}: некорректный формат списка\n\n'
-                        flag15 = 1
-                        continue
-
+                '''
+                if len(gs.split(',')) >= 2:
+                    s += f'❌Ошибка: {area[0]}: некорректный формат списка\n\n'
+                    flag15 = 1
+                    continue
+                '''
 
                 linjud = lin.copy()
                 otherjud = [gs] + zgs
