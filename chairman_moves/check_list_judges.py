@@ -14,7 +14,7 @@ async def check_list(text, user_id):
         s = ''
         list_for_group_counter = []
         flag1, flag2, flag3, flag4, flag5, flag6, flag7, flag8, flag9, flag10, flag11, flag12, flag13 = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-        flag14 = 0
+        flag14, flag15 = 0, 0
         active_comp = await general_queries.get_CompId(user_id)
         const = await general_queries.get_tournament_lin_const(active_comp)
         judges_free = await general_queries.get_judges_free(active_comp)
@@ -84,6 +84,12 @@ async def check_list(text, user_id):
                     lin = re.split(',\s{0,}', area[1])
                     lin.sort()
                     new_text += f'{area[0]}\nЛинейные судьи: {", ".join(lin)}\n\n'
+
+                if have_zgs == 0:
+                    if len(gs.split(',')) >= 2:
+                        s += f'❌Ошибка: {area[0]}: некорректный формат списка\n\n'
+                        flag15 = 1
+                        continue
 
 
                 linjud = lin.copy()
@@ -218,7 +224,7 @@ async def check_list(text, user_id):
 
         config.judges_index[user_id] = judges_use
         Chairman_comm_handler.linsets[user_id][0] = new_text[0:-2]
-        if flag1 + flag2 + flag3 + flag4 + flag5 + flag6 + flag7 + flag8 + flag9 + flag10 + flag12 + flag11 + flag13 + flag14 == 0:
+        if flag1 + flag2 + flag3 + flag4 + flag5 + flag6 + flag7 + flag8 + flag9 + flag10 + flag12 + flag11 + flag13 + flag14 + flag15== 0:
             for data in areas_01:
                 # Новая логика для двух таблиц
                 group_num = data[3]
@@ -229,7 +235,7 @@ async def check_list(text, user_id):
                     if crew_id != -1:
                         await chairman_queries_02.pull_to_comp_group_jud(user_id, crew_id, data[1], have)
             return (1, s, list_for_group_counter)
-        elif flag4 == 1 and flag1 + flag2 + flag3 + flag5 + flag6 + flag7 + flag8 + flag9 + flag10 + flag11 + flag12 + flag13 + flag14  == 0:
+        elif flag4 == 1 and flag1 + flag2 + flag3 + flag5 + flag6 + flag7 + flag8 + flag9 + flag10 + flag11 + flag12 + flag13 + flag14 + flag15 == 0:
             for data in areas_01:
                 # Новая логика для двух таблиц
                 group_num = data[3]
