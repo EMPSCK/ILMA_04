@@ -21,6 +21,11 @@ async def load_list(tg_id, text, compid, code):
         with conn:
             cur = conn.cursor()
             judges_lst = re.split(',\s{0,}', text)
+
+            if code == 1:
+                cur.execute(f"update competition_judges set workCode = 0 where workCode = 1 and compId = {compid}")
+                conn.commit()
+
             for jud in judges_lst:
                 notjud = 0
                 jud = jud.strip().strip('\n').strip('.').strip()
