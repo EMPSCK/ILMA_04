@@ -192,7 +192,6 @@ async def get_ans(data):
 
         group_all_judges_list = await judges_category_filter(group_all_judges_list,
                                                        min_category, min_category_sport, i[3])  # 4. удаляем судей с неподходящей категорией
-
         group_all_judges_list = await kill_yana(group_all_judges_list)
 
         black_list_cat = await black_list_convert(group_number,
@@ -513,6 +512,7 @@ async def judges_black_list_filter(all_judges_list, category_black_list):
       all_judges_list_1.pop(i, None)
   return all_judges_list_1
 
+
 #функция генерирует случайного судью
 async def get_random_judge(group_all_judges_list):
     """
@@ -528,7 +528,7 @@ async def get_random_judge(group_all_judges_list):
 
     new_dict = group_all_judges_list.copy()
     for j in group_all_judges_list:
-        if group_all_judges_list[j]['group_counter'] > min_counter:
+        if group_all_judges_list[j]['group_counter'] > min_counter + 5:
             new_dict.pop(j, None)
 
     random_number = random.randint(0, len(new_dict.keys()) - 1)
@@ -1037,3 +1037,5 @@ async def regions_change_filter(all_judges, info, regions, compRegion):
                 if regions[jud_region] >= neibor:
                     all_judges_01.remove(jud)
     return all_judges_01
+
+
