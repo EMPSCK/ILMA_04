@@ -240,3 +240,8 @@ Node.insert(r, 13)
 
 Node.inorder(r)
 '''
+nums = [4,5,0,-2,-3,1]
+k = 5
+
+prefix = [0]*(len(nums) + 1)
+for i in range(1, len())
