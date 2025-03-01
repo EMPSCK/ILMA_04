@@ -520,16 +520,16 @@ async def get_random_judge(group_all_judges_list):
 
     return group_all_judges_list[list(group_all_judges_list.keys())[random_number]] #достаем из общего списка судей параметры по судье исходя из случайного индекса
     """
-    min_counter = 10 ** 6
-    for i in group_all_judges_list:
-        a = group_all_judges_list[i]['group_counter']
-        if a < min_counter:
-            min_counter = a
+    #min_counter = 10 ** 6
+    #for i in group_all_judges_list:
+    #    a = group_all_judges_list[i]['group_counter']
+    #    if a < min_counter:
+    #        min_counter = a
 
     new_dict = group_all_judges_list.copy()
-    for j in group_all_judges_list:
-        if group_all_judges_list[j]['group_counter'] > min_counter + 5:
-            new_dict.pop(j, None)
+    #for j in group_all_judges_list:
+    #    if group_all_judges_list[j]['group_counter'] > min_counter + 5:
+    #        new_dict.pop(j, None)
 
     random_number = random.randint(0, len(new_dict.keys()) - 1)
     return new_dict[list(new_dict.keys())[random_number]]
