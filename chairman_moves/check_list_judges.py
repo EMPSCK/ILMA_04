@@ -110,6 +110,7 @@ async def check_list(text, user_id):
                     flag17 = 1
                     s += f'❌Ошибка: {area}: дублирование внутри згс\n\n'
 
+
                 #group_num = re.search('Гр.\s{0,}\d+', area)
                 group_num = re.search('\d+.', area[0:5].strip())
                 areas_01.append([area, area_01, areas_02[areaindex], group_num, [[gs], zgs, lin]])
@@ -201,7 +202,6 @@ async def check_list(text, user_id):
                 sumjudes.append(set(otherjud + linjud))
 
 
-
         # Проверяем пересечения между площадками
         res = list(combinations(sumjudes, 2))
         res = [i[0] & i[1] for i in res if i[0] & i[1] != set()]
@@ -277,7 +277,7 @@ async def get_parse(text, user_id):
         database=config.db_name,
         cursorclass=pymysql.cursors.DictCursor
     )
-
+    text = text.replace('Линейный судьи', 'Линейные судьи')
     areas = re.split('\n\s{0,}\n', text)
     areas = [re.split('Гс.?\s{1,}|Згс.?\s{1,}|Линейные судьи\s{0,}.?\s{1,}', i) for i in areas]
     areas = [[i[j].strip().strip('\n').strip('.') for j in range(len(i))] for i in areas]

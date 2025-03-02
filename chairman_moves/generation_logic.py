@@ -520,19 +520,45 @@ async def get_random_judge(group_all_judges_list):
 
     return group_all_judges_list[list(group_all_judges_list.keys())[random_number]] #достаем из общего списка судей параметры по судье исходя из случайного индекса
     """
-    #min_counter = 10 ** 6
-    #for i in group_all_judges_list:
-    #    a = group_all_judges_list[i]['group_counter']
-    #    if a < min_counter:
-    #        min_counter = a
+    mode = 0
+    min_counter = 10 ** 6
+    if mode == 1:
+        min_counter = 10 ** 6
+        for i in group_all_judges_list:
+            a = group_all_judges_list[i]['group_counter']
+            if a < min_counter:
+                min_counter = a
 
     new_dict = group_all_judges_list.copy()
-    #for j in group_all_judges_list:
-    #    if group_all_judges_list[j]['group_counter'] > min_counter + 5:
-    #        new_dict.pop(j, None)
+    if mode == 1:
+        for j in group_all_judges_list:
+            if group_all_judges_list[j]['group_counter'] > min_counter + 5:
+                new_dict.pop(j, None)
+
 
     random_number = random.randint(0, len(new_dict.keys()) - 1)
     return new_dict[list(new_dict.keys())[random_number]]
+
+from queries import general_queries
+async def getRandomMode(user_id):
+    try:
+        active_comp = await general_queries.get_CompId(user_id)
+        conn = pymysql.connect(
+            host=config.host,
+            port=3306,
+            user=config.user,
+            password=config.password,
+            database=config.db_name,
+            cursorclass=pymysql.cursors.DictCursor
+        )
+        with conn:
+            cur = conn.cursor()
+            cur.execute(f"SELECT generationRandomMode from competition where compId = {active_comp}")
+            mode = cur.fetchone()
+            return mode['generationRandomMode']
+    except:
+        print('Ошибка выполнения запроса активное соревнование или нет')
+        return 0
 
 
 #функция удаляет всех судей с таким же клубом

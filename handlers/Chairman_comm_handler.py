@@ -27,7 +27,7 @@ chairmans_groups_lists = {}
 generation_results = {}
 
 #Обработка списка от CHAIRPERSON
-@router.message(F.text.lower().contains('линейные судьи'))
+@router.message(F.text.lower().contains('судьи'))
 async def f2(message: Message):
     user_status = await get_user_status_query.get_user_status(message.from_user.id)
     if user_status == 3 or user_status == 2:
