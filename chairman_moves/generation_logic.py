@@ -66,6 +66,7 @@ async def get_ans(data):
     sucess_result_zgs = 0
     sucess_result = 0
     final_status = 0
+    randomMode = await getRandomMode(data['compId'])
 
     for i in group_list:
         group_number = i[0]
@@ -112,7 +113,7 @@ async def get_ans(data):
             while len(zgs_end_list) < zgs_number_to_have:
                 if len(zgs_list_generation) > 0:
                     need_num = zgs_number_to_have - len(zgs_end_list)
-                    zgs_random_choice = await get_random_judge(zgs_list_generation)
+                    zgs_random_choice = await get_random_judge(zgs_list_generation, randomMode)
 
                     if zgs_random_choice['gender'] is not None:
                         zgs_genders.add(zgs_random_choice['gender'])
@@ -210,7 +211,7 @@ async def get_ans(data):
             while n_judges_category < n_judges:
                 if len(group_all_judges_list) > 0:
                     # после чисток выбираем рандомного судью из списка
-                    try_judge_data = await get_random_judge(group_all_judges_list)
+                    try_judge_data = await get_random_judge(group_all_judges_list, randomMode)
 
                     # обновляем данные о судейском составе текущей группы
                     group_finish_judges_list.append(try_judge_data['id'])  # добавили судью в список выбранных
@@ -514,35 +515,34 @@ async def judges_black_list_filter(all_judges_list, category_black_list):
 
 
 #функция генерирует случайного судью
-async def get_random_judge(group_all_judges_list):
-    """
-    random_number = random.randint(0, len(group_all_judges_list.keys()) - 1) #генерация случайного индекса
-
-    return group_all_judges_list[list(group_all_judges_list.keys())[random_number]] #достаем из общего списка судей параметры по судье исходя из случайного индекса
-    """
-    mode = 0
-    min_counter = 10 ** 6
-    if mode == 1:
+async def get_random_judge(group_all_judges_list, randomMode):
+    if randomMode == 1:
+        new_dict = group_all_judges_list.copy()
+        random_number = random.randint(0, len(new_dict.keys()) - 1)
+        return new_dict[list(new_dict.keys())[random_number]]
+    else:
+        mode = 0
         min_counter = 10 ** 6
-        for i in group_all_judges_list:
-            a = group_all_judges_list[i]['group_counter']
-            if a < min_counter:
-                min_counter = a
+        if mode == 1:
+            min_counter = 10 ** 6
+            for i in group_all_judges_list:
+                a = group_all_judges_list[i]['group_counter']
+                if a < min_counter:
+                    min_counter = a
 
-    new_dict = group_all_judges_list.copy()
-    if mode == 1:
-        for j in group_all_judges_list:
-            if group_all_judges_list[j]['group_counter'] > min_counter + 5:
-                new_dict.pop(j, None)
+        new_dict = group_all_judges_list.copy()
+
+        if mode == 1:
+            for j in group_all_judges_list:
+                if group_all_judges_list[j]['group_counter'] > min_counter + 5:
+                    new_dict.pop(j, None)
+
+        random_number = random.randint(0, len(new_dict.keys()) - 1)
+        return new_dict[list(new_dict.keys())[random_number]]
 
 
-    random_number = random.randint(0, len(new_dict.keys()) - 1)
-    return new_dict[list(new_dict.keys())[random_number]]
-
-from queries import general_queries
-async def getRandomMode(user_id):
+async def getRandomMode(active_comp):
     try:
-        active_comp = await general_queries.get_CompId(user_id)
         conn = pymysql.connect(
             host=config.host,
             port=3306,
@@ -557,8 +557,8 @@ async def getRandomMode(user_id):
             mode = cur.fetchone()
             return mode['generationRandomMode']
     except:
-        print('Ошибка выполнения запроса активное соревнование или нет')
-        return 0
+        print('Ошибка выполнения запроса рандомный мод')
+        return -1
 
 
 #функция удаляет всех судей с таким же клубом

@@ -962,3 +962,32 @@ def kill():
     except Exception as e:
         print(e)
         return -1
+
+from chairman_moves import generation_logic
+async def changeGenerationRandom(user_id):
+    try:
+        active_comp = await general_queries.get_CompId(user_id)
+        host = 'server70.hosting.reg.ru'
+        user = 'u1059284_remote'
+        password = 'WEg1M13q8L6V'
+        db_name = 'u1059284_ss6bot'
+        conn = pymysql.connect(
+            host=host,
+            port=3306,
+            user=user,
+            password=password,
+            database=db_name,
+            cursorclass=pymysql.cursors.DictCursor
+        )
+        with conn:
+            cur = conn.cursor()
+            mode = await generation_logic.getRandomMode(active_comp)
+            if mode == 0:
+                cur.execute(f"update competition set generationRandomMode = 1 where compId = {active_comp}")
+                conn.commit()
+            elif mode == 1:
+                a = cur.execute(f"update competition set generationRandomMode = 0 where compId = {active_comp}")
+                conn.commit()
+            return "✅Режим генерации изменен"
+    except:
+        return -1

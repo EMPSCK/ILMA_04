@@ -156,3 +156,16 @@ async def cmd_start(message: types.Message):
         msg = await message.answer('❌Ошибка. Нет прав.')
         await start_stage_handler.del_message_after_time(msg, config.expirate_message_timer)
 
+from queries import chairman_queries_02
+@router.message(Command("change_generation_random_mode"))
+async def cmd_start(message: types.Message):
+    user_status = await get_user_status_query.get_user_status(message.from_user.id)
+    if user_status == 3 or user_status == 2:
+        status = await chairman_queries_02.changeGenerationRandom(message.from_user.id)
+        if status != -1:
+            await message.answer(status)
+        else:
+            await message.answer('❌Ошибка')
+    else:
+        msg = await message.answer('❌Ошибка. Нет прав.')
+        await start_stage_handler.del_message_after_time(msg, config.expirate_message_timer)

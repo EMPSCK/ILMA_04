@@ -240,8 +240,14 @@ Node.insert(r, 13)
 
 Node.inorder(r)
 '''
-nums = [4,5,0,-2,-3,1]
-k = 5
 
-prefix = [0]*(len(nums) + 1)
-for i in range(1, len())
+nums = [1,1,1,2,2,3]
+i, j, k = 0, 0, 0.5
+while i != len(nums):
+    if nums[i] != k:
+        nums[j] = nums[i]
+        j += 1
+    k = nums[i]
+    i += 1
+
+print(nums)

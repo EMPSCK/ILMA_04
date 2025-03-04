@@ -43,7 +43,7 @@ async def get_CompId(tg_id):
         print('Ошибка выполнения запроса поиск активного соревнования')
         return 0
 
-
+from chairman_moves import generation_logic
 async def CompId_to_name(id):
     try:
         conn = pymysql.connect(
@@ -64,7 +64,10 @@ async def CompId_to_name(id):
             secretMode = name['isSecret']
             decode = {0: 'по умолчанию', 1: 'повышенный'}
             secretMode = decode[secretMode]
-            return f"{name['compName']}\n{str(name['date1'])};{str(name['date2'])}|{name['city']}\nРежим конфиденциальности: {secretMode}"
+            generationRandomMode = await generation_logic.getRandomMode(id)
+            gendecode = {1: 'случайное распределение', 0: "приоритет минимальным по счетчикам", -1: 'ошибка'}
+            gentext = gendecode[generationRandomMode]
+            return f"{name['compName']}\n{str(name['date1'])};{str(name['date2'])}|{name['city']}\n\n🗓Режим конфиденциальности: {secretMode}\n📋Режим генерации: {gentext}"
 
     except Exception as e:
         print(e)
