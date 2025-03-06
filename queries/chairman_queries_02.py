@@ -967,16 +967,12 @@ from chairman_moves import generation_logic
 async def changeGenerationRandom(user_id):
     try:
         active_comp = await general_queries.get_CompId(user_id)
-        host = 'server70.hosting.reg.ru'
-        user = 'u1059284_remote'
-        password = 'WEg1M13q8L6V'
-        db_name = 'u1059284_ss6bot'
         conn = pymysql.connect(
-            host=host,
+            host=config.host,
             port=3306,
-            user=user,
-            password=password,
-            database=db_name,
+            user=config.user,
+            password=config.password,
+            database=config.db_name,
             cursorclass=pymysql.cursors.DictCursor
         )
         with conn:

@@ -156,6 +156,7 @@ async def cmd_start(message: types.Message):
         msg = await message.answer('❌Ошибка. Нет прав.')
         await start_stage_handler.del_message_after_time(msg, config.expirate_message_timer)
 
+
 from queries import chairman_queries_02
 @router.message(Command("change_generation_random_mode"))
 async def cmd_start(message: types.Message):
