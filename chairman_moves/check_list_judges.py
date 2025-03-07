@@ -237,8 +237,7 @@ async def check_list(text, user_id):
         config.judges_index[user_id] = judges_use
         Chairman_comm_handler.linsets[user_id][0] = new_text[0:-2]
 
-        if len(groupNumbers) == 1:
-            flag3 = 0
+
 
         if flag1 + flag2 + flag3 + flag4 + flag5 + flag6 + flag7 + flag8 + flag9 + flag10 + flag12 + flag11 + flag13 + flag14 + flag15 + flag17== 0:
             for data in areas_01:
