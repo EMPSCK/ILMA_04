@@ -10,6 +10,7 @@ from handlers import Chairman_comm_handler
 
 async def check_list(text, user_id):
     try:
+        groupNumbers = set()
         areas_01 = []
         s = ''
         list_for_group_counter = []
@@ -116,6 +117,7 @@ async def check_list(text, user_id):
                 areas_01.append([area, area_01, areas_02[areaindex], group_num, [[gs], zgs, lin]])
                 if group_num is not None and not area[0].isalpha():
                     group_num = int(group_num[0].replace('.', '').strip())
+                    groupNumbers.add(group_num)
                     status = await chairman_queries_02.active_group(active_comp, group_num)
                     if status == 0:
                         flag10 = 1
@@ -234,6 +236,10 @@ async def check_list(text, user_id):
 
         config.judges_index[user_id] = judges_use
         Chairman_comm_handler.linsets[user_id][0] = new_text[0:-2]
+
+        if len(groupNumbers) == 1:
+            flag3 = 0
+
         if flag1 + flag2 + flag3 + flag4 + flag5 + flag6 + flag7 + flag8 + flag9 + flag10 + flag12 + flag11 + flag13 + flag14 + flag15 + flag17== 0:
             for data in areas_01:
                 # Новая логика для двух таблиц
