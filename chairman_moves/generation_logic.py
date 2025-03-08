@@ -534,7 +534,7 @@ async def get_random_judge(group_all_judges_list, randomMode):
 
         if mode == 1:
             for j in group_all_judges_list:
-                if group_all_judges_list[j]['group_counter'] > min_counter + 5:
+                if group_all_judges_list[j]['group_counter'] > min_counter:
                     new_dict.pop(j, None)
 
         random_number = random.randint(0, len(new_dict.keys()) - 1)
