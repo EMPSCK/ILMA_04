@@ -1,7 +1,6 @@
 import asyncio
 from aiogram import Bot, Dispatcher
 from config import TOKEN
-from admin_moves import filemanager
 from handlers import start_stage_handler
 from handlers import Chairman_menu_handler
 from handlers import Chairman_comm_handler

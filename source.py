@@ -56,6 +56,8 @@ def bubble_sort(arr):
                 arr[j], arr[j+1] = arr[j+1], arr[j]
     return arr
 
+
+
 a = [1, 2, 3, 4, 5, 5, 5, 5, 8, 9, 10]
 #Если элемента нет, то выводит индекс первого элемента больше данного
 def lbs(a, x):
@@ -241,13 +243,64 @@ Node.insert(r, 13)
 Node.inorder(r)
 '''
 
-nums = [1,1,1,2,2,3]
-i, j, k = 0, 0, 0.5
-while i != len(nums):
-    if nums[i] != k:
-        nums[j] = nums[i]
-        j += 1
-    k = nums[i]
-    i += 1
+'''
+text1 = "abcde"
+text2 = "ace"
+dp = [[0 for i in range(len(text1) + 1)] for j in range(len(text2) + 1)]
+for i in range(1, len(text1) + 1):
+    for j in range(1, len(text2) + 1):
+        if text1[i - 1] == text2[j - 1]:
+            dp[j][i] = dp[j - 1][i - 1] + 1
+        else:
+            dp[j][i] = max(dp[j - 1][i], dp[j][i - 1])
 
-print(nums)
+print(dp)
+
+
+class Solution(object):
+    def lengthOfLIS(self, nums):
+        dp = [1]*(len(nums))
+
+        for i in range(len(nums)):
+            ans = 1
+            for j in range(0, i):
+                if nums[j] < nums[i]:
+                    ans = max(ans, dp[j] + 1)
+            dp[i] = ans
+        return max(dp)
+'''
+
+def f(a, b):
+    i, j = 0, 0
+    preda = 0
+    predb = 0
+    ans = []
+    while i != len(a) and j != len(b):
+        if a[i] == b[i]:
+            ans.append([a[i][0], a[i][1] + b[j][1]])
+            preda = a[i][1]
+            predb = b[j][1]
+        elif a[i] < b[j]:
+            ans.append([a[i][0], a[i][1] + predb])
+            preda = a[i][1]
+            i += 1
+        else:
+            ans.append([b[j][0], b[j][1] + preda])
+            predb = b[j][1]
+            j += 1
+
+    while i != len(a):
+        ans.append([a[i][0], a[i][1] + predb])
+        i += 1
+
+    while j != len(b):
+        ans.append([b[j][0], b[j][1] + preda])
+        j += 1
+
+    return ans
+
+a = [[1, 2], [5, 3], [7, 1]]
+b = [[2, 3], [3, 4], [5, 6], [9, 2]]
+print(f(a, b))
+a = list(map(int, '15'.split(';')))
+print(a)

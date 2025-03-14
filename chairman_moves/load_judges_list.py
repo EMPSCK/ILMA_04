@@ -88,17 +88,21 @@ async def load_list(tg_id, text, compid, code):
                 sex = person[0]['gender']
 
 
-
                 if type(SPORT_CategoryDateConfirm) == str and type(SPORT_CategoryDate) == str:
+
                     judges_promlem.insert(0, [last_name, name, 'На момент окончания турнира категория недействительна', 1])
-                    names.append([last_name, name])
+                    names.append(last_name  + ' '+ name)
                     continue
                 elif type(SPORT_CategoryDateConfirm) == str and type(SPORT_CategoryDate) != str:
+
                     CategoryDate = SPORT_CategoryDate
                 elif type(SPORT_CategoryDateConfirm) != str and type(SPORT_CategoryDate) == str:
                     CategoryDate = SPORT_CategoryDateConfirm
                 else:
+
                     CategoryDate = max(SPORT_CategoryDateConfirm, SPORT_CategoryDate)
+
+                print(828828282)
                 date2 = await chairman_queries.get_tournament_date(tg_id)
                 a = date2 - CategoryDate
                 a = a.days
@@ -119,6 +123,7 @@ async def load_list(tg_id, text, compid, code):
                         judges_promlem.insert(0, [last_name, name, 'На момент окончания турнира категория недействительна', 1])
                         names.append(last_name+ ' '+name)
                         continue
+
 
                 BookNumber = int(BookNumber)
                 # Если судья уже есть в таблице competition_judges

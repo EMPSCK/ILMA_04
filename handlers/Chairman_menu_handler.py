@@ -216,6 +216,7 @@ async def f2(message: Message, state: FSMContext):
     code = judges_codes[message.from_user.id]
     status = await load_judges_list.load_list(message.from_user.id, message.text, compid, code)
     if status == 1:
+        print(13)
         status1 = await chairman_queries.check_celebrate(message.from_user.id, last_added_judges[message.from_user.id])
         if status1 != 0:
             await message.answer(status1)

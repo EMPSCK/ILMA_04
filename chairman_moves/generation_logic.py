@@ -5,6 +5,7 @@ import pymysql
 
 
 async def get_ans(data):
+    print(data)
     json_end = dict()
     json_export = dict()
     group_list = []
